@@ -551,12 +551,12 @@ session_id | member_name | session_date | start_time | end_time
 Use this as a checklist to keep track of your progress.
 
 #### 1. User Management (user_management.sql)
-1. [ ] 1.1 Retrieve all members
-2. [ ] 1.2 Update a member's contact information
-3. [ ] 1.3 Count total number of members
-4. [ ] 1.4 Find member with the most class registrations
-5. [ ] 1.5 Find member with the least class registrations
-6. [ ] 1.6 Count the total number of members who have attended at least two classes
+1. [x] 1.1 Retrieve all members
+2. [x] 1.2 Update a member's contact information
+3. [x] 1.3 Count total number of members
+4. [x] 1.4 Find member with the most class registrations
+5. [x] 1.5 Find member with the least class registrations
+6. [x] 1.6 Count the total number of members who have attended at least two classes
 
 #### 2. Payment Management (payment_management.sql)
 1. [ ] 2.1 Record a payment for a membership
