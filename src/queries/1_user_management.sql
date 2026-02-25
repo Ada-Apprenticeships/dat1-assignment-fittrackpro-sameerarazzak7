@@ -30,7 +30,7 @@ SELECT m.member_id, m.first_name, m.last_name, COUNT(*) AS 'registration_count'
 FROM members AS m
 JOIN class_attendance AS c
     ON m.member_id = c.member_id
-WHERE c.attendance_status = 'Registered' -- all registered classes and their members
+WHERE c.attendance_status = 'Registered' 
 GROUP BY m.member_id
 ORDER BY registration_count 
 LIMIT 1;
