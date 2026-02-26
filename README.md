@@ -559,14 +559,14 @@ Use this as a checklist to keep track of your progress.
 6. [x] 1.6 Count the total number of members who have attended at least two classes
 
 #### 2. Payment Management (payment_management.sql)
-1. [ ] 2.1 Record a payment for a membership
-2. [ ] 2.2 Calculate total revenue from membership fees for each month of the last year
-3. [ ] 2.3 Find all day pass purchases
+1. [x] 2.1 Record a payment for a membership
+2. [x] 2.2 Calculate total revenue from membership fees for each month of the last year
+3. [x] 2.3 Find all day pass purchases
 
 #### 3. Equipment Management (equipment_management.sql)
-1. [ ] 3.1 Find equipment due for maintenance in the next 30 days
-2. [ ] 3.2 Count equipment types in stock
-3. [ ] 3.3 Calculate average age of equipment by type (in days)
+1. [x] 3.1 Find equipment due for maintenance in the next 30 days
+2. [x] 3.2 Count equipment types in stock
+3. [x] 3.3 Calculate average age of equipment by type (in days)
 
 #### 4. Class Scheduling (class_scheduling.sql)
 1. [ ] 4.1 List all classes with their instructors
