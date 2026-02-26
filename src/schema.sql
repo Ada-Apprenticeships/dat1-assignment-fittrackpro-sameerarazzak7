@@ -124,8 +124,7 @@ CREATE TABLE attendance (
     location_id                     INTEGER,
     check_in_time                   TEXT CHECK(check_in_time IS NOT NULL
                                         AND check_in_time = datetime(check_in_time)),
-    check_out_time                  TEXT CHECK(check_out_time IS NOT NULL
-                                        AND check_out_time = datetime(check_out_time)),
+    check_out_time                  TEXT CHECK(check_out_time = datetime(check_out_time)),
     FOREIGN KEY(member_id)          REFERENCES members,
     FOREIGN KEY(location_id)        REFERENCES locations
 );
