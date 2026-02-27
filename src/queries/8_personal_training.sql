@@ -1,9 +1,9 @@
 .open fittrackpro.db
 .mode column
 
--- 8.1 
+-- 8.1 - pt sessions with Ivy Irwin the trainer
 SELECT p.session_id,
-       (m.first_name || ' ' || m.last_name)AS 'member_name',
+       (m.first_name || ' ' || m.last_name) AS member_name,
        p.session_date,
        p.start_time,
        p.end_time
