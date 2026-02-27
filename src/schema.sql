@@ -24,13 +24,15 @@ CREATE TABLE locations (
     location_id                     INTEGER PRIMARY KEY NOT NULL,
     name                            TEXT NOT NULL,
     address                         TEXT NOT NULL,
-    phone_number                    TEXT NOT NULL 
-                                        CHECK(phone_number LIKE '% ___ ____'
+    phone_number                    TEXT NOT NULL
+                                         DEFAULT 'info@location.com' 
+                                         CHECK(phone_number LIKE '% ___ ____'
                                                 AND phone_number NOT GLOB '*[^0-9 ]*'),
     email                           TEXT NOT NULL 
-                                        CHECK(email LIKE '%@%.%'),
+                                         CHECK(email LIKE '%@%.%'),
     opening_hours                   TEXT NOT NULL 
-                                        CHECK(opening_hours LIKE '__:__-__:__'
+                                         DEFAULT '09:00-17:00'
+                                         CHECK(opening_hours LIKE '__:__-__:__'
                                                 AND opening_hours NOT GLOB '*[^0-9:-]*'
                                                 AND substr(opening_hours,1,2) <= '23'
                                                 AND substr(opening_hours,4,2) <= '59'
@@ -53,6 +55,7 @@ CREATE TABLE members (
                                          CHECK(date(date_of_birth) IS NOT NULL
                                                 AND date_of_birth = date(date_of_birth)),
     join_date                       TEXT NOT NULL 
+                                         DEFAULT (date('now'))    
                                          CHECK(date(join_date) IS NOT NULL
                                                 AND join_date = date(join_date)),
     emergency_contact_name          TEXT NOT NULL,
@@ -73,6 +76,7 @@ CREATE TABLE staff (
     position                        TEXT NOT NULL 
                                          CHECK(position IN ('Trainer', 'Manager', 'Receptionist', 'Maintenance')),
     hire_date                       TEXT NOT NULL 
+                                         DEFAULT (date('now'))
                                          CHECK(date(hire_date) IS NOT NULL
                                                 AND hire_date = date(hire_date)),
     location_id                     INTEGER NOT NULL, 
@@ -85,6 +89,7 @@ CREATE TABLE equipment (
     type                            TEXT NOT NULL
                                          CHECK(type IN ('Cardio', 'Strength')),
     purchase_date                   TEXT NOT NULL
+                                         DEFAULT (date('now'))
                                          CHECK(date(purchase_date) IS NOT NULL
                                                 AND purchase_date = date(purchase_date)),
     last_maintenance_date           TEXT NOT NULL
@@ -126,12 +131,14 @@ CREATE TABLE memberships (
     member_id                       INTEGER NOT NULL,
     type                            TEXT NOT NULL,
     start_date                      TEXT NOT NULL
+                                         DEFAULT (date('now'))
                                          CHECK(date(start_date) IS NOT NULL
                                                 AND start_date = date(start_date)),
     end_date                        TEXT NOT NULL
                                          CHECK(date(end_date) IS NOT NULL
                                                 AND end_date = date(end_date)),
     status                          TEXT NOT NULL
+                                         DEFAULT 'Active'
                                          CHECK(status IN ('Active', 'Inactive')),
     FOREIGN KEY(member_id)          REFERENCES members
 );
@@ -143,7 +150,8 @@ CREATE TABLE attendance (
     check_in_time                   TEXT NOT NULL
                                          CHECK(datetime(check_in_time) IS NOT NULL
                                                 AND check_in_time = datetime(check_in_time)),
-    check_out_time                  TEXT CHECK(check_out_time = datetime(check_out_time)), -- is nullable for task 6.1 to work
+    check_out_time                  TEXT DEFAULT (datetime('now'))
+                                         CHECK(check_out_time = datetime(check_out_time)),
     FOREIGN KEY(member_id)          REFERENCES members,
     FOREIGN KEY(location_id)        REFERENCES locations
 );
@@ -163,11 +171,13 @@ CREATE TABLE payments (
     member_id                       INTEGER NOT NULL,
     amount                          NUMERIC NOT NULL,
     payment_date                    TEXT NOT NULL
-                                         CHECK(payment_date IS NOT NULL
+                                         DEFAULT (datetime('now'))    
+                                         CHECK(datetime(payment_date) IS NOT NULL
                                                 AND payment_date = datetime(payment_date)),
     payment_method                  TEXT NOT NULL
                                          CHECK(payment_method IN ('Credit Card', 'Bank Transfer', 'PayPal', 'Cash')),
     payment_type                    TEXT NOT NULL
+                                         DEFAULT 'Monthly membership fee'
                                          CHECK(payment_type IN ('Monthly membership fee', 'Day pass')),
     FOREIGN KEY(member_id)          REFERENCES members
 );
@@ -177,15 +187,16 @@ CREATE TABLE personal_training_sessions (
     member_id                       INTEGER NOT NULL,
     staff_id                        INTEGER NOT NULL,
     session_date                    TEXT NOT NULL
-                                         CHECK(session_date IS NOT NULL
+                                         CHECK(date(session_date) IS NOT NULL
                                                 AND session_date = date(session_date)),
     start_time                      TEXT NOT NULL
-                                         CHECK(start_time IS NOT NULL
+                                         CHECK(time(start_time) IS NOT NULL
                                                 AND start_time = time(start_time)),
     end_time                        TEXT NOT NULL
-                                         CHECK(end_time IS NOT NULL
+                                         CHECK(time(end_time) IS NOT NULL
                                                 AND end_time = time(end_time)),
-    notes                           TEXT NOT NULL,
+    notes                           TEXT NOT NULL
+                                         DEFAULT '',
     FOREIGN KEY(member_id)          REFERENCES members,
     FOREIGN KEY(staff_id)           REFERENCES staff
 );
@@ -194,7 +205,8 @@ CREATE TABLE member_health_metrics (
     metric_id                       INTEGER PRIMARY KEY NOT NULL,
     member_id                       INTEGER NOT NULL,
     measurement_date                TEXT NOT NULL
-                                         CHECK(measurement_date IS NOT NULL
+                                         DEFAULT (date('now'))
+                                         CHECK(date(measurement_date) IS NOT NULL
                                                 AND measurement_date = date(measurement_date)),
     weight                          NUMERIC NOT NULL,
     body_fat_percentage             NUMERIC NOT NULL,
@@ -209,7 +221,8 @@ CREATE TABLE equipment_maintenance_log (
     maintenance_date                TEXT NOT NULL
                                          CHECK(date(maintenance_date) IS NOT NULL
                                                 AND maintenance_date = date(maintenance_date)),
-    description                     TEXT NOT NULL,
+    description                     TEXT NOT NULL
+                                         DEFAULT '',
     staff_id                        INTEGER NOT NULL,
     FOREIGN KEY(equipment_id)       REFERENCES equipment,
     FOREIGN KEY(staff_id)           REFERENCES staff
